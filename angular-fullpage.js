@@ -19,8 +19,17 @@
                  *  Mapping fullPage.js methods
                  */
                 scope.internalControl = scope.control || {};
+                scope.internalControl.moveSectionUp = function () {
+                    $.fn.fullpage.moveSectionUp();
+                };
+                scope.internalControl.moveSectionDown = function () {
+                    $.fn.fullpage.moveSectionDown();
+                };
                 scope.internalControl.moveTo = function (index) {
                     $.fn.fullpage.moveTo(index);
+                };
+                scope.internalControl.silentMoveTo = function (section, slide) {
+                    $.fn.fullpage.silentMoveTo(section, slide);
                 };
 
                 /**
@@ -29,7 +38,7 @@
                 var pageIndex,
                     slideIndex;
 
-                function rebuild() {
+                function reBuild() {
                     destroyFullPage();
 
                     angular.element(element).fullpage(sanatizeOptions(scope.options));
@@ -42,16 +51,22 @@
                 }
 
                 function sanatizeOptions(options) {
-                    /*options.onLeave = function(page, next, direction){
-                     pageIndex = next;
-                     };*/
+                    var sanitizedOptions = options || {};
+                    sanitizedOptions.onLeave = function (page, nextIndex, direction) {
+                        pageIndex = nextIndex;
 
-                    options.onSlideLeave = function (anchorLink, page, slide, direction, next) {
+                        // pass the user set method from options
+                        if (angular.isFunction(options.onLeave)) {
+                            options.onLeave(page, nextIndex, direction);
+                        }
+                    };
+
+                    sanitizedOptions.onSlideLeave = function (anchorLink, page, slide, direction, next) {
                         pageIndex = page;
                         slideIndex = next;
                     };
 
-                    options.afterRender = function () {
+                    sanitizedOptions.afterRender = function () {
                         //We want to remove the HREF targets for navigation because they use hashbang
                         //They still work without the hash though, so its all good.
                         if (options && options.navigation) {
@@ -70,16 +85,16 @@
                         $.fn.fullpage.moveTo($(this).attr('data-menuanchor'));
                     });
 
-                    return options;
+                    return sanitizedOptions;
                 }
 
                 function watchNodes() {
                     return element[0].getElementsByTagName('*').length;
                 }
 
-                scope.$watch(watchNodes, rebuild);
+                scope.$watch(watchNodes, reBuild);
 
-                scope.$watch('options', rebuild, true);
+                scope.$watch('options', reBuild, true);
 
                 element.on('$destroy', destroyFullPage);
             }
