@@ -71,7 +71,7 @@ _someView.html_
 
 If you'd like to add some options to the fullpage, just include them in an object in your controller, and add the options attribute to your html.
 
-_someView.html_
+_someViewController.js_
 ```js
 function MainController(){
 
