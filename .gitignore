@@ -45,3 +45,6 @@ Temporary Items
 bower_components
 sample/vendor
 node_modules
+
+# ide settings e.g. IntelliJ
+.idea

@@ -1,117 +1,88 @@
-;(function() {
-  'use strict';
+(function (angular) {
+    'use strict';
 
-  angular
-    .module('fullPage.js', [])
-    .directive('fullPage', fullPage);
+    angular
+        .module('fullPage.js', [])
+        .directive('fullPage', function ($timeout) {
+            return {
+                restrict: 'A',
+                scope: {
+                    options: '=',
+                    control: '='
+                },
+                link: link
+            };
 
-  fullPage.$inject = ['$timeout'];
 
-  function fullPage($timeout) {
-    var directive = {
-      restrict: 'A',
-      scope: {options: '='},
-      link: link
-    };
+            function link(scope, element) {
+                /**
+                 *  Mapping fullPage.js methods
+                 */
+                scope.internalControl = scope.control || {};
+                scope.internalControl.moveTo = function (index) {
+                    $.fn.fullpage.moveTo(index);
+                };
 
-    return directive;
+                /**
+                 *  Original content
+                 */
+                var pageIndex,
+                    slideIndex;
 
-    function link(scope, element) {
-      var pageIndex;
-      var slideIndex;
-      var afterRender;
+                function rebuild() {
+                    destroyFullPage();
 
-      var rebuild = function() {
-        destroyFullPage();
+                    angular.element(element).fullpage(sanatizeOptions(scope.options));
+                }
 
-        angular.element(element).fullpage(sanatizeOptions(scope.options));
+                function destroyFullPage() {
+                    if ($.fn.fullpage.destroy) {
+                        $.fn.fullpage.destroy('all');
+                    }
+                }
 
-        if (typeof afterRender === 'function') {
-          afterRender();
-        }
-      };
+                function sanatizeOptions(options) {
+                    /*options.onLeave = function(page, next, direction){
+                     pageIndex = next;
+                     };*/
 
-      var destroyFullPage = function() {
-        if ($.fn.fullpage.destroy) {
-          $.fn.fullpage.destroy('all');
-        }
-      };
+                    options.onSlideLeave = function (anchorLink, page, slide, direction, next) {
+                        pageIndex = page;
+                        slideIndex = next;
+                    };
 
-      var sanatizeOptions = function(options) {
-        var onLeave;
-        var onSlideLeave;
+                    options.afterRender = function () {
+                        //We want to remove the HREF targets for navigation because they use hashbang
+                        //They still work without the hash though, so its all good.
+                        if (options && options.navigation) {
+                            $('#fp-nav').find('a').removeAttr('href');
+                        }
 
-        if (typeof options === 'object') {
-          if (options.afterRender) {
-            afterRender = options.afterRender;
-          }
+                        if (pageIndex) {
+                            $timeout(function () {
+                                $.fn.fullpage.silentMoveTo(pageIndex, slideIndex);
+                            });
+                        }
+                    };
 
-          if (options.onLeave) {
-            onLeave = options.onLeave;
-          }
+                    //if we are using a ui-router, we need to be able to handle anchor clicks without 'href="#thing"'
+                    $(document).on('click', '[data-menuanchor]', function () {
+                        $.fn.fullpage.moveTo($(this).attr('data-menuanchor'));
+                    });
 
-          if (options.onSlideLeave) {
-            onSlideLeave = options.onSlideLeave;
-          }
-        } else if(typeof options === 'undefined') {
-          options = {};
-        }
+                    return options;
+                }
 
-        options.afterRender = afterAngularRender;
-        options.onLeave = onAngularLeave;
-        options.onSlideLeave = onAngularSlideLeave;
+                function watchNodes() {
+                    return element[0].getElementsByTagName('*').length;
+                }
 
-        function afterAngularRender() {
-          //We want to remove the HREF targets for navigation because they use hashbang
-          //They still work without the hash though, so its all good.
-          if (options && options.navigation) {
-            $('#fp-nav').find('a').removeAttr('href');
-          }
+                scope.$watch(watchNodes, rebuild);
 
-          if (pageIndex) {
-            $timeout(function() {
-              $.fn.fullpage.silentMoveTo(pageIndex, slideIndex);
-            });
-          }
-        }
+                scope.$watch('options', rebuild, true);
 
-        function onAngularLeave(page, next){
-          pageIndex = next;
-
-          if (typeof onLeave === 'function') {
-            onLeave();
-          }
-        }
-
-        function onAngularSlideLeave(anchorLink, page, slide, direction, next) {
-          pageIndex   = page;
-          slideIndex  = next;
-
-          if (typeof onSlideLeave === 'function') {
-            onSlideLeave();
-          }
-        }
-
-        //options.afterRender = afterAngularRender;
-
-        //if we are using a ui-router, we need to be able to handle anchor clicks without 'href="#thing"'
-        $(document).on('click', '[data-menuanchor]', function () {
-          $.fn.fullpage.moveTo($(this).attr('data-menuanchor'));
-        });
-
-        return options;
-      };
-
-      var watchNodes = function() {
-        return element[0].getElementsByTagName('*').length;
-      };
-
-      scope.$watch(watchNodes, rebuild);
-
-      scope.$watch('options', rebuild, true);
-
-      element.on('$destroy', destroyFullPage);
-    }
-  }
+                element.on('$destroy', destroyFullPage);
+            }
+        })
 
 })();

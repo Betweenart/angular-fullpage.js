@@ -11,8 +11,7 @@
     "url": "git://github.com/hellsan631/angular-fullpage.js.git"
   },
   "main": [
-    "angular-fullpage.js",
-    "angular-fullpage.min.js"
+    "angular-fullpage.js"
   ],
   "ignore": [
     ".jshintrc",
