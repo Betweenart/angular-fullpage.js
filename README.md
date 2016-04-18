@@ -1,4 +1,8 @@
+
 ## Inspired by, forked and enhanced:
+
+## ! Still testing to make it stable ;)
+
 [angular-fullPage.js](https://github.com/hellsan631/angular-fullpage.js) Angular Directive
 [fullPage.js](https://github.com/alvarotrigo/fullPage.js) Mother of the directive ;P
 ====
