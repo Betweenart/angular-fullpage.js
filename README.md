@@ -1,33 +1,5 @@
+## Inspired by, forked and enhanced:
 [fullPage.js](https://github.com/alvarotrigo/fullPage.js) Angular Directive
-====
-
-## Enhanced by [BrowserStack](http://browserstack.com/)
-
-[![Code Climate](https://codeclimate.com/github/hellsan631/angular-fullPage.js/badges/gpa.svg)](https://codeclimate.com/github/hellsan631/angular-fullPage.js)
-[![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
-
-
-A simple [fullPage.js](https://github.com/alvarotrigo/fullPage.js) directive that allows
-the use of fullPage.js within an angular app. There are several issues when using the the vanilla jquery
-version with an angular application that uses an internal router for displaying pages, and this repo
-aims to solve them.
-
-[Example](http://hellsan631.github.io/angular-fullpage.js/) - [Source](https://github.com/hellsan631/angular-fullpage.js/tree/gh-pages)
-
-### Installation
-
-Install via __Download__,
-
-__Bower__
-```bash
-bower install --save angular-fullpage.js
-```
-
-or __NPM__
-```bash
-npm install --save angular-fullpage.js
-```
-
 ====
 
 Make sure to include both this directive and fullPage.js. This package isn't a replacement.

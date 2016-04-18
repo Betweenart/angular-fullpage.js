@@ -1,14 +1,15 @@
 {
   "name": "angular-fullpage.js",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "homepage": "http://hellsan631.github.io/angular-fullpage.js/",
   "authors": [
-    "Mathew Kleppin <mathew.kleppin@gmail.com>"
+    "Mathew Kleppin <mathew.kleppin@gmail.com>",
+    "Lukasz M Oltarzewski <lukasz.oltarzewski@gmail.com>"
   ],
   "description": "A simple angular directive for fullpage.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hellsan631/angular-fullpage.js.git"
+    "url": "https://github.com/Betweenart/angular-fullpage.js.git"
   },
   "main": [
     "angular-fullpage.js"
@@ -23,7 +24,7 @@
     "bower_components"
   ],
   "dependencies": {
-    "angular": ">=1.2.0",
+    "angular": ">=1.2.1",
     "fullpage.js": "~2.7.7"
   },
   "keywords": [
