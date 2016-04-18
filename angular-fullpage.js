@@ -41,6 +41,12 @@
             scope.internalControl.silentMoveTo = function (section, slide) {
                 $.fn.fullpage.silentMoveTo(section, slide);
             };
+            scope.internalControl.moveSlideRight = function () {
+                $.fn.fullpage.moveSlideRight();
+            };
+            scope.internalControl.moveSlideLeft = function () {
+                $.fn.fullpage.moveSlideLeft();
+            };
 
             /**
              *  Original content
