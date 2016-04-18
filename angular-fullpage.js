@@ -5,6 +5,9 @@
         .module('fullPage.js', [])
         .directive('fullPage', fullPage);
 
+    // inject functions
+    fullPage.$inject = ['$timeout'];
+
     /**
      * @name fullPage
      * @desc <full-page> directive
@@ -52,21 +55,25 @@
              *  Original content
              */
             var pageIndex,
-                slideIndex;
+                slideIndex,
+                reBuild,
+                destroyFullPage,
+                sanatizeOptions,
+                watchNodes;
 
-            function reBuild() {
+            reBuild = function () {
                 destroyFullPage();
 
                 angular.element(element).fullpage(sanatizeOptions(scope.options));
-            }
+            };
 
-            function destroyFullPage() {
+            destroyFullPage = function destroyFullPage() {
                 if ($.fn.fullpage.destroy) {
                     $.fn.fullpage.destroy('all');
                 }
-            }
+            };
 
-            function sanatizeOptions(options) {
+            sanatizeOptions = function (options) {
                 var sanitizedOptions = options || {};
                 sanitizedOptions.onLeave = function (page, nextIndex, direction) {
                     pageIndex = nextIndex;
@@ -102,11 +109,11 @@
                 });
 
                 return sanitizedOptions;
-            }
+            };
 
-            function watchNodes() {
+            watchNodes = function () {
                 return element[0].getElementsByTagName('*').length;
-            }
+            };
 
             scope.$watch(watchNodes, reBuild);
 
