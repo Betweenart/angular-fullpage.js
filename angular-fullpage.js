@@ -76,14 +76,12 @@
 
             sanatizeOptions = function (options) {
                 var sanitizedOptions = options || {};
-                sanitizedOptions.onLeave = function (page, nextIndex, direction) {
-                    pageIndex = nextIndex;
+                /*sanitizedOptions.onLeave = function (page, nextIndex, direction) {
+                 pageIndex = nextIndex;
 
-                    // pass the user set method from options
-                    if (angular.isFunction(options.onLeave)) {
-                        options.onLeave(page, nextIndex, direction);
-                    }
-                };
+                 // pass the user set method from options
+
+                 };*/
 
                 sanitizedOptions.onSlideLeave = function (anchorLink, page, slide, direction, next) {
                     pageIndex = page;
@@ -112,11 +110,15 @@
                 return sanitizedOptions;
             };
 
+            // watch if elements were added
             watchNodes = function () {
-                return element[0].getElementsByTagName('*').length;
+                return element[0].getElementsByClassName('*').length;
             };
 
-            scope.$watch(watchNodes, reBuild);
+            // angular rendering elements makes it rebuild many times
+            // this should be called only if new elements are added
+            // - reBuild can be called from outside with internalControl
+            //scope.$watch(watchNodes, reBuild);
 
             scope.$watch('options', reBuild, true);
 
