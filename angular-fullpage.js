@@ -13,7 +13,7 @@
      * @desc <full-page> directive
      */
     function fullPage($timeout) {
-        return {
+        var directive = {
             restrict: 'A',
             scope: {
                 options: '=',
@@ -21,6 +21,7 @@
             },
             link: link
         };
+        return directive;
 
         /**
          * @name link
