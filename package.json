@@ -5,7 +5,7 @@
   "main": "angular-fullpage.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hellsan631/angular-fullpage.js.git"
+    "url": "git://github.com/Betweenart/angular-fullpage.js.git"
   },
   "keywords": [
     "fullpage",
@@ -40,7 +40,8 @@
     "gulp-webserver": "^0.9.1"
   },
   "authors": [
-    "Mathew Kleppin <mathew.kleppin@gmail.com>"
+    "Mathew Kleppin <mathew.kleppin@gmail.com>",
+    "Lukasz M Oltarzewski <lukasz.oltarzewski@gmail.com>"
   ],
   "homepage": "http://hellsan631.github.io/angular-fullpage.js/",
   "bugs": {
