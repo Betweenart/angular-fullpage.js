@@ -15,6 +15,7 @@
     "angular-fullpage.js"
   ],
   "ignore": [
+    ".idea",
     ".jshintrc",
     ".editorconfig",
     ".sass-cache",
